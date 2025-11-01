@@ -1,0 +1,427 @@
+unit uMain;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ComCtrls, StdCtrls,Clipbrd,shellapi, inifiles, Registry,
+  ExtCtrls, Grids;
+
+  CONST
+  CONTROL_SHIFT_0 =  201000;
+  CONTROL_SHIFT_1 =  201001;
+  CONTROL_SHIFT_2 =  201002;
+  CONTROL_SHIFT_3 =  201003;
+  CONTROL_SHIFT_4 =  201004;
+  CONTROL_SHIFT_5 =  201005;
+  CONTROL_SHIFT_6 =  201006;
+  CONTROL_SHIFT_7 =  201007;
+  CONTROL_SHIFT_8 =  201008;
+  CONTROL_SHIFT_9 =  201009;
+  CONTROL_SHIFT_F12= 201010;
+  CONTROL_SHIFT_M =  201011;
+  CONTROL_SHIFT_N =  201012;
+  CONTROL_SHIFT_T =  201013;
+  CONTROL_SHIFT_V =  201014;
+  CONTROL_SHIFT_H =  201015;
+  CONTROL_SHIFT_Z =  201016;
+
+type
+  TForm1 = class(TForm)
+    Panel1: TPanel;
+    Label11: TLabel;
+    Button1: TButton;
+    Button2: TButton;
+    CheckBox1: TCheckBox;
+    CheckBox2: TCheckBox;
+    Panel2: TPanel;
+    Label2: TLabel;
+    Label1: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label0: TLabel;
+    Edit10: TEdit;
+    Edit11: TEdit;
+    Edit12: TEdit;
+    Edit13: TEdit;
+    Edit14: TEdit;
+    Edit15: TEdit;
+    Edit16: TEdit;
+    Edit17: TEdit;
+    Edit18: TEdit;
+    Edit19: TEdit;
+    Label110: TLabel;
+    Label10: TLabel;
+    Label13: TLabel;
+    GroupBox1: TGroupBox;
+    mc: TMemo;
+    GroupBox2: TGroupBox;
+    StringGrid1: TStringGrid;
+    Panel3: TPanel;
+    mc2: TMemo;
+    btnSaveMC2: TButton;
+    Label_ChooseMC: TLabel;
+    Button3: TButton;
+    Label12: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    edtMC2Name: TEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Label11Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure CheckBox1Click(Sender: TObject);
+    procedure CheckBox2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure ClickEvent_WithNameEdit(Sender: TObject);
+    procedure DBClickEvent_WithNameEdit(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+
+  private
+    { Private declarations }
+    //HotKey1:THandle;
+    FQuikNaneT:TEdit;
+    procedure MyHotKey(var Message: TMessage); message WM_HOTKEY;
+    procedure LoadContentFromFile(aFile:String;Loadto:TMemo);
+    procedure SaveContentToFile(aFile:String;SaveFrom:TMemo);
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+uses uClearFormatTxt;
+
+{$R *.dfm}
+{$R uac.res}
+
+procedure TForm1.MyHotKey(var Message: TMessage);
+begin
+  mc2.Lines.Add(inttostr(Message.WParam));
+  case Message.WParam of
+  201000: DBClickEvent_WithNameEdit(Edit10);
+  201001: DBClickEvent_WithNameEdit(Edit11);
+  201002: DBClickEvent_WithNameEdit(Edit12);
+  201003: DBClickEvent_WithNameEdit(Edit13);
+  201004: DBClickEvent_WithNameEdit(Edit14);
+  201005: DBClickEvent_WithNameEdit(Edit15);
+  201006: DBClickEvent_WithNameEdit(Edit16);
+  201007: DBClickEvent_WithNameEdit(Edit17);
+  201008: DBClickEvent_WithNameEdit(Edit18);
+  201009: DBClickEvent_WithNameEdit(Edit19);
+  201010: begin
+            if Showing then hide else begin show; Application.BringToFront; end;
+          end;
+          //m
+  201011: ShellExecute(handle,nil,pchar('E:\Projects'),nil,nil,SW_shownormal);
+          //n
+  201012: ShellExecute(handle,'open',pchar('E:\钛网科技'),nil,nil,SW_shownormal);
+  CONTROL_SHIFT_T:
+        begin
+          ShellExecute(handle,'open',pchar('T:\'),nil,nil,SW_shownormal);
+        end;
+  CONTROL_SHIFT_V,CONTROL_SHIFT_Z:
+        begin
+          ShellExecute(handle,'open',pchar('T:\视频号'),nil,nil,SW_shownormal);
+        end;
+  CONTROL_SHIFT_H:
+        begin
+          ShellExecute(handle,'open',pchar('H:\'),nil,nil,SW_shownormal);
+        end;
+
+          //p
+  202001: ShellExecute(handle,nil,pchar('E:\钛网科技\Projectsx'),nil,nil,SW_shownormal);
+  201101: begin
+             if not frmClearFormatTxt.Showing then
+             begin
+                frmClearFormatTxt.Top:=10;
+                frmClearFormatTxt.ShowModal
+             end
+             else
+             frmClearFormatTxt.Close;
+          end;
+  end;
+
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+  UnregisterHotKey(handle,201000);
+  UnregisterHotKey(handle,201001);
+  UnregisterHotKey(handle,201002);
+  UnregisterHotKey(handle,201003);
+  UnregisterHotKey(handle,201004);
+  UnregisterHotKey(handle,201005);
+  UnregisterHotKey(handle,201006);
+  UnregisterHotKey(handle,201007);
+  UnregisterHotKey(handle,201008);
+  UnregisterHotKey(handle,201009);
+  UnregisterHotKey(handle,201010);
+//  UnregisterHotKey(handle,201011);
+  //UnregisterHotKey(handle,201012);
+
+  UnregisterHotKey(Handle,CONTROL_SHIFT_M);
+  UnregisterHotKey(Handle,CONTROL_SHIFT_N);
+  UnregisterHotKey(Handle,CONTROL_SHIFT_T);
+  UnregisterHotKey(Handle,CONTROL_SHIFT_V);
+  UnregisterHotKey(Handle,CONTROL_SHIFT_H);
+  UnregisterHotKey(Handle,CONTROL_SHIFT_Z);
+  
+  UnregisterHotKey(handle,202001);
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+var s:string;
+begin
+
+  registerhotkey(Handle,201000,MOD_CONTROL+MOD_SHIFT,$30); //0
+  registerhotkey(Handle,201001,MOD_CONTROL+MOD_SHIFT,$31);
+  registerhotkey(Handle,201002,MOD_CONTROL+MOD_SHIFT,$32);
+  registerhotkey(Handle,201003,MOD_CONTROL+MOD_SHIFT,$33);
+  registerhotkey(Handle,201004,MOD_CONTROL+MOD_SHIFT,$34);
+  registerhotkey(Handle,201005,MOD_CONTROL+MOD_SHIFT,$35);
+  registerhotkey(Handle,201006,MOD_CONTROL+MOD_SHIFT,$36);
+  registerhotkey(Handle,201007,MOD_CONTROL+MOD_SHIFT,$37);
+  registerhotkey(Handle,201008,MOD_CONTROL+MOD_SHIFT,$38);
+  registerhotkey(Handle,201009,MOD_CONTROL+MOD_SHIFT,$39);
+  registerhotkey(Handle,201010,MOD_CONTROL+MOD_SHIFT,vk_F12);
+  registerhotkey(Handle,CONTROL_SHIFT_M,MOD_CONTROL+MOD_SHIFT,$4D); //M
+  registerhotkey(Handle,CONTROL_SHIFT_N,MOD_CONTROL+MOD_SHIFT,$4E); //N
+  registerhotkey(Handle,CONTROL_SHIFT_T,MOD_CONTROL+MOD_SHIFT,$54); //N
+  registerhotkey(Handle,CONTROL_SHIFT_V,MOD_CONTROL+MOD_SHIFT,$56); //M
+  registerhotkey(Handle,CONTROL_SHIFT_H,MOD_CONTROL+MOD_SHIFT,$48); //N
+  registerhotkey(Handle,CONTROL_SHIFT_Z,MOD_CONTROL+MOD_SHIFT,$90); //N
+
+  registerhotkey(Handle,201101,MOD_CONTROL,192); //`
+
+  if not registerhotkey(Handle,202001,MOD_CONTROL+MOD_SHIFT,$50) then
+  mc2.Lines.Add('error');
+
+  with TIniFile.Create( ExtractFilePath( ParamStr(0))+'params.ini') do
+  begin
+  try
+    Label0.Caption:= '0:';Edit10.text:=trim(ReadString('params','k0n',''));
+    Label1.Caption:= '1:';Edit11.text:=trim(ReadString('params','k1n',''));
+    Label2.Caption:= '2:';Edit12.text:=trim(ReadString('params','k2n',''));
+    Label3.Caption:= '3:';Edit13.text:=trim(ReadString('params','k3n',''));
+    Label4.Caption:= '4:';Edit14.text:=trim(ReadString('params','k4n',''));
+    Label5.Caption:= '5:';Edit15.text:=trim(ReadString('params','k5n',''));
+    Label6.Caption:= '6:';Edit16.text:=trim(ReadString('params','k6n',''));
+    Label7.Caption:= '7:';Edit17.text:=trim(ReadString('params','k7n',''));
+    Label8.Caption:= '8:';Edit18.text:=trim(ReadString('params','k8n',''));
+    Label9.Caption:= '9:';Edit19.text:=trim(ReadString('params','k9n',''));
+    CheckBox2.Checked:= (ReadInteger('params','AutoShow',1) = 1 );
+    Application.ShowMainForm:= CheckBox2.Checked;
+
+  Except
+  On E:Exception do
+  begin
+    s:=e.Message;
+    MessageBox(handle,Pchar(S),'ReadString',MB_OK);
+  end;
+  end;
+  free;
+  end;//with
+
+  with TRegistry.Create do
+  begin
+  try
+    rootkey:=HKEY_LOCAL_MACHINE;
+    openkey('SOFTWARE\Microsoft\Windows\CurrentVersion\Run',true);
+    CheckBox1.Checked := ValueExists('SCAWCB');
+    CloseKey;
+  Except
+  On E:Exception do
+  begin
+    s:=e.Message;
+    MessageBox(handle,Pchar(S),'ReadString',MB_OK);
+  end;
+  end;
+  free;
+  end;//with
+
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  Hide;
+end;
+
+procedure TForm1.Label11Click(Sender: TObject);
+begin
+ // WinExec('iexplore http://www.4gcn.net/',SW_SHOWNORMAL);
+ ShellExecute(handle,nil,pchar('http://www.yxydev.com/'),nil,nil,SW_shownormal);
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  with TIniFile.Create( ExtractFilePath( ParamStr(0))+'params.ini') do
+  try
+    WriteString('params','k0n',trim(Edit10.Text));
+    WriteString('params','k1n',trim(Edit11.Text));
+    WriteString('params','k2n',trim(Edit12.Text));
+    WriteString('params','k3n',trim(Edit13.Text));
+    WriteString('params','k4n',trim(Edit14.Text));
+    WriteString('params','k5n',trim(Edit15.Text));
+    WriteString('params','k6n',trim(Edit16.Text));
+    WriteString('params','k7n',trim(Edit17.Text));
+    WriteString('params','k8n',trim(Edit18.Text));
+    WriteString('params','k9n',trim(Edit19.Text));
+    {
+    WriteString('params','k0s',trim(Edit0.Text));
+    WriteString('params','k1s',trim(Edit1.Text));
+    WriteString('params','k2s',trim(Edit2.Text));
+    WriteString('params','k3s',trim(Edit3.Text));
+    WriteString('params','k4s',trim(Edit4.Text));
+    WriteString('params','k5s',trim(Edit5.Text));
+    WriteString('params','k6s',trim(Edit6.Text));
+    WriteString('params','k7s',trim(Edit7.Text));
+    WriteString('params','k8s',trim(Edit8.Text));
+    WriteString('params','k9s',trim(Edit9.Text));
+    }
+  finally
+    free;
+  end;
+
+ 
+
+end;
+
+procedure TForm1.CheckBox1Click(Sender: TObject);
+begin
+with TRegistry.Create do
+try
+  rootkey:=HKEY_LOCAL_MACHINE;
+  openkey('SOFTWARE\Microsoft\Windows\CurrentVersion\Run',true);
+
+  if CheckBox1.Checked then
+  begin
+    WriteString('SCAWCB1',Application.ExeName);
+  end
+  else
+  begin
+    DeleteValue('SCAWCB1');
+    with TIniFile.Create( ExtractFilePath( ParamStr(0))+'params.ini') do
+    try
+      WriteString('params','AutoRun','0');
+    finally
+      free;
+    end;
+  end;
+  CloseKey;
+finally
+free;
+end;
+end;
+
+procedure TForm1.CheckBox2Click(Sender: TObject);
+begin
+    with TIniFile.Create( ExtractFilePath( ParamStr(0))+'params.ini') do
+    try
+      if CheckBox2.Checked then
+      begin
+        WriteString('params','AutoShow','1');
+      end
+      else
+      begin
+        WriteString('params','AutoShow','0');
+      end;
+    finally
+    free;
+    end;
+end;
+
+procedure TForm1.LoadContentFromFile(aFile: String;Loadto:TMemo);
+begin
+  if (Loadto<>nil) and FileExists(aFile) then
+  begin
+     Loadto.Lines.LoadFromFile(afile);
+  end
+  else
+  if Loadto<>nil then
+  begin
+    Loadto.Text:='尚未设置内容';
+    Loadto.SetFocus;
+    Loadto.SelectAll;
+  end;
+end;
+
+procedure TForm1.SaveContentToFile(aFile: String; SaveFrom: TMemo);
+begin
+  if savefrom<>nil then
+   SaveFrom.Lines.SaveToFile(afile);
+   Application.MessageBox('保存成功','Result:',MB_ICONINFORMATION);
+end;
+
+procedure TForm1.Button3Click(Sender: TObject);
+begin
+  if FQuikNaneT=nil then
+  begin
+    Application.MessageBox('请先双击选择要修改的项','Error',MB_ICONWARNING);
+  end
+  else
+  SaveContentToFile(ExtractFilePath( ParamStr(0))+'/data/'+FQuikNaneT.Name+'.txt',mc);
+  with TIniFile.Create( ExtractFilePath( ParamStr(0))+'params.ini') do
+  try
+    WriteString('params','k0n',trim(Edit10.Text));
+    WriteString('params','k1n',trim(Edit11.Text));
+    WriteString('params','k2n',trim(Edit12.Text));
+    WriteString('params','k3n',trim(Edit13.Text));
+    WriteString('params','k4n',trim(Edit14.Text));
+    WriteString('params','k5n',trim(Edit15.Text));
+    WriteString('params','k6n',trim(Edit16.Text));
+    WriteString('params','k7n',trim(Edit17.Text));
+    WriteString('params','k8n',trim(Edit18.Text));
+    WriteString('params','k9n',trim(Edit19.Text));
+    {
+    WriteString('params','k0s',trim(Edit0.Text));
+    WriteString('params','k1s',trim(Edit1.Text));
+    WriteString('params','k2s',trim(Edit2.Text));
+    WriteString('params','k3s',trim(Edit3.Text));
+    WriteString('params','k4s',trim(Edit4.Text));
+    WriteString('params','k5s',trim(Edit5.Text));
+    WriteString('params','k6s',trim(Edit6.Text));
+    WriteString('params','k7s',trim(Edit7.Text));
+    WriteString('params','k8s',trim(Edit8.Text));
+    WriteString('params','k9s',trim(Edit9.Text));
+    }
+  finally
+    free;
+  end;
+end;
+
+procedure TForm1.ClickEvent_WithNameEdit(Sender: TObject);
+begin
+  FQuikNaneT:=(Sender as TEdit);
+  Label_ChooseMC.caption:='当前编辑内容项：'+ FQuikNaneT.Text;
+  LoadContentFromFile( ExtractFilePath( ParamStr(0))+'/data/'+FQuikNaneT.Name+'.txt',mc);
+end;
+
+procedure TForm1.DBClickEvent_WithNameEdit(Sender: TObject);
+begin
+  FQuikNaneT:=(Sender as TEdit);
+  Label_ChooseMC.caption:='当前编辑内容项：'+ FQuikNaneT.Text;
+  LoadContentFromFile( ExtractFilePath( ParamStr(0))+'/data/'+FQuikNaneT.Name+'.txt',mc );
+
+  Clipboard.AsText:=Trim(mc.Lines.Text);
+end;
+
+procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+    if not (GetKeyState(VK_CONTROL)<0) then
+    begin
+    Hide;
+    CanClose:=false;
+    end;
+end;
+
+end.

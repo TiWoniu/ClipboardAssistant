@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<BT_BuildType>Debug</BT_BuildType>
+	<Transactions>
+    <Transaction>1899-12-30 00:00:00.000.503,E:\_C_Delphi_APPS\剪切板小助手\SourceCode\uConvertColor2Web.pas=E:\_C_Delphi_APPS\剪切板小助手\SourceCode\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.104,E:\_C_Delphi_APPS\剪切板小助手\SourceCode\SCAWCB.dproj=E:\_C_Delphi_APPS\剪切板小助手\SourceCode\ClipboardAssistant.dproj</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.447,=E:\_C_Delphi_APPS\剪切板小助手\SourceCode\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>
